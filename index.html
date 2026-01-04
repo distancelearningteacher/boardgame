@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CYOA Builder</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="src/css/components.css">
+    <link rel="stylesheet" href="src/css/main.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Main Menu -->
+    <div id="main-menu" class="screen">
+        <div class="menu-container">
+            <h1>Choose Your Own Adventure Builder</h1>
+            <div class="menu-buttons">
+                <button id="new-project-btn" class="btn btn-primary">Create New Project</button>
+                <button id="load-project-btn" class="btn btn-secondary">Load Project</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Editor Screen (initially hidden) -->
+    <div id="editor-screen" class="screen hidden">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="project-name" id="project-name">Untitled Project</div>
+            <div class="top-bar-actions">
+                <button id="save-project-btn" class="btn btn-small">Save</button>
+                <button id="exit-editor-btn" class="btn btn-small btn-secondary">Exit to Menu</button>
+            </div>
+        </div>
+
+        <div class="editor-container">
+            <!-- Left Sidebar -->
+            <div class="left-sidebar">
+                <div class="sidebar-section">
+                    <h3>Create</h3>
+                    <button id="create-character-btn" class="btn btn-block">Create Character</button>
+                    <button id="create-textflow-btn" class="btn btn-block">Create Text Flow</button>
+                    <button id="create-snippet-btn" class="btn btn-block">Create Code Snippet</button>
+                </div>
+                <div class="sidebar-section">
+                    <h3>Project Files</h3>
+                    <div id="project-files">
+                        <!-- Project files will be listed here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Canvas -->
+            <div class="main-canvas">
+                <div class="scene-preview" id="scene-preview">
+                    <!-- Scene preview will be rendered here -->
+                    <div class="scene-background" id="scene-background"></div>
+                    <div class="character-slots" id="character-slots">
+                        <!-- Character slots will be added here -->
+                    </div>
+                    <div class="text-display" id="text-display">
+                        <div class="text-content" id="scene-text">Scene text will appear here...</div>
+                        <div class="choice-buttons" id="choice-buttons">
+                            <!-- Choice buttons will be added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Sidebar -->
+            <div class="right-sidebar">
+                <div class="sidebar-section">
+                    <h3>Scene Properties</h3>
+                    <div class="form-group">
+                        <label for="scene-title">Scene Title</label>
+                        <input type="text" id="scene-title" class="form-control" placeholder="Enter scene title">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Background</label>
+                        <div class="background-controls">
+                            <button id="set-background-btn" class="btn btn-small btn-block">Set Background</button>
+                            <div id="sub-backgrounds">
+                                <h4>Sub Backgrounds</h4>
+                                <div id="sub-background-list">
+                                    <!-- Sub-backgrounds will be listed here -->
+                                </div>
+                                <button id="add-sub-bg-btn" class="btn btn-small btn-block">+ Add Sub Background</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Characters in Scene</label>
+                        <div id="characters-in-scene">
+                            <!-- Characters in scene will be listed here -->
+                        </div>
+                        <button id="add-character-btn" class="btn btn-small btn-block">+ Add Character</button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Text Flow</label>
+                        <select id="text-flow-select" class="form-control">
+                            <option value="">-- Select Text Flow --</option>
+                            <!-- Text flows will be populated here -->
+                        </select>
+                        <button id="create-text-flow-btn" class="btn btn-small btn-block">Create New Text Flow</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="modals">
+        <!-- Character Creator Modal -->
+        <div id="character-modal" class="modal">
+            <div class="modal-content">
+                <h2>Create Character</h2>
+                <div class="form-group">
+                    <label for="character-name">Character Name</label>
+                    <input type="text" id="character-name" class="form-control" placeholder="Enter character name">
+                </div>
+                <div class="form-group">
+                    <label for="character-color">Text Color</label>
+                    <input type="color" id="character-color" value="#000000">
+                </div>
+                <div class="form-group">
+                    <label>Main Portrait</label>
+                    <div id="main-portrait-upload" class="portrait-upload">
+                        <div class="portrait-preview" id="main-portrait-preview">
+                            <span>+</span>
+                        </div>
+                        <input type="file" id="main-portrait-input" accept="image/*" style="display: none;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Additional Portraits</label>
+                    <div id="additional-portraits">
+                        <!-- Additional portraits will be added here -->
+                    </div>
+                    <button id="add-portrait-btn" class="btn btn-small">+ Add Portrait</button>
+                </div>
+                <div class="modal-actions">
+                    <button id="save-character-btn" class="btn btn-primary">Save Character</button>
+                    <button id="cancel-character-btn" class="btn btn-secondary">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Text Flow Modal -->
+        <div id="textflow-modal" class="modal">
+            <div class="modal-content wide">
+                <h2>Create Text Flow</h2>
+                <div class="textflow-editor">
+                    <div class="textflow-main">
+                        <div class="form-group">
+                            <label for="textflow-title">Text Flow Name</label>
+                            <input type="text" id="textflow-title" class="form-control" placeholder="Enter text flow name">
+                        </div>
+                        <div class="form-group">
+                            <label for="main-text">Text</label>
+                            <textarea id="main-text" class="form-control" rows="4" placeholder="Enter the main text for this scene"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Options</label>
+                            <div class="options-controls">
+                                <button id="decrease-options-btn" class="btn btn-small">-</button>
+                                <span id="options-count">4</span> Options
+                                <button id="increase-options-btn" class="btn btn-small">+</button>
+                            </div>
+                            <div id="option-inputs">
+                                <!-- Option inputs will be added here -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="textflow-actions">
+                        <button id="add-branch-btn" class="btn btn-block">Add Branch</button>
+                        <button id="force-continue-btn" class="btn btn-block btn-primary">Force Continue</button>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button id="save-textflow-btn" class="btn btn-primary">Save Text Flow</button>
+                    <button id="cancel-textflow-btn" class="btn btn-secondary">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="src/js/app.js" type="module"></script>
+</body>
+</html>
